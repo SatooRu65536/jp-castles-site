@@ -1,17 +1,13 @@
-import { atom, useRecoilState, useRecoilValue } from "recoil";
-import { recoilKeyHashSet } from "./keys";
+import { atom, useAtomValue, useSetAtom } from "jotai";
 
-const mapMode = atom<"edit" | "view">({
-  key: recoilKeyHashSet.mapMode,
-  default: "view",
-});
+const mapMode = atom<"edit" | "view">("view");
 
 /**
  * @description マップのモードを取得する
  * @returns　マップのモード
  */
 export function useMapModeState() {
-  return useRecoilValue(mapMode);
+  return useAtomValue(mapMode);
 }
 
 /**
@@ -19,7 +15,7 @@ export function useMapModeState() {
  * @returns マップのモードを更新する関数
  */
 export function useMapModeMutators() {
-  const [_mapModeState, setMapModeState] = useRecoilState(mapMode);
+  const setMapModeState = useSetAtom(mapMode);
 
   return { setMapModeState };
 }

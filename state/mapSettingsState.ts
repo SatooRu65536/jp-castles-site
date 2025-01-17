@@ -1,6 +1,4 @@
 import { MapSettings } from "@/types/map";
-import { atom, useRecoilState, useRecoilValue } from "recoil";
-import { recoilKeyHashSet } from "./keys";
 import { LatLng } from "leaflet";
 import { DEFAULT_ZOOM } from "@/const/scale";
 import { useEffect } from "react";
@@ -8,23 +6,23 @@ import {
   getLocalStorage,
   setLocalStorage,
 } from "@/foundations/useLocalStorage";
+import { atom, useAtomValue } from "jotai";
 
 const init = {
   center: new LatLng(35.1855, 136.89939),
   zoom: DEFAULT_ZOOM,
-};
+} as const;
 
-const mapSettings = atom<MapSettings>({
-  key: recoilKeyHashSet.mapSettings,
-  default: getLocalStorage<MapSettings>("mapSettings", init),
-});
+const mapSettings = atom<MapSettings>(
+  getLocalStorage<MapSettings>("mapSettings", init),
+);
 
 /**
  * @description マップの設定を取得する
  * @returns マップの設定
  */
 export function useMapSettingsState() {
-  return useRecoilValue(mapSettings);
+  return useAtomValue(mapSettings);
 }
 
 /**
@@ -32,7 +30,7 @@ export function useMapSettingsState() {
  * @returns マップの設定を変更する関数
  */
 export function useMapSettingsMutator() {
-  const [mapSettingsState, _] = useRecoilState(mapSettings);
+  const mapSettingsState = useAtomValue(mapSettings);
 
   /**
    * @description 中心位置を変更する

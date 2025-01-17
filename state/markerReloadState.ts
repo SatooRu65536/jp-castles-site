@@ -1,17 +1,13 @@
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import { recoilKeyHashSet } from './keys';
+import { atom, useAtomValue, useSetAtom } from "jotai";
 
-const markerReload = atom<boolean>({
-  key: recoilKeyHashSet.markerReload,
-  default: true,
-});
+const markerReload = atom<boolean>(true);
 
 /**
  * @description マーカーのリロードフラグを取得する
  * @returns マーカーのリロードフラグ
  */
 export function useMarkerReloadState() {
-  return useRecoilValue(markerReload);
+  return useAtomValue(markerReload);
 }
 
 /**
@@ -19,7 +15,7 @@ export function useMarkerReloadState() {
  * @returns マーカーのリロードフラグを更新する関数
  */
 export function useMarkerReloadMutators() {
-  const [_, setReloadFlag] = useRecoilState(markerReload);
+  const setReloadFlag = useSetAtom(markerReload);
 
   return { setReloadFlag };
 }

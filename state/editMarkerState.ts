@@ -1,23 +1,19 @@
-import { MARKERS } from '@/const/marker';
-import { scaleToMarker } from '@/const/scale';
-import { CastleMarker, Coordinates, EditMarker } from '@/types/map';
-import { StaticImageData } from 'next/image';
-import { useEffect } from 'react';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
-import { recoilKeyHashSet } from './keys';
+import { MARKERS } from "@/const/marker";
+import { scaleToMarker } from "@/const/scale";
+import { CastleMarker, Coordinates, EditMarker } from "@/types/map";
+import { StaticImageData } from "next/image";
+import { useEffect } from "react";
+import { atom, useAtom, useAtomValue } from "jotai";
 
 const editMarker = atom<EditMarker>({
-  key: recoilKeyHashSet.editMarker,
-  default: {
-    id: null,
-    name: '',
-    coordinates: {
-      lat: 0,
-      lng: 0,
-    },
-    img: MARKERS[0].img,
-    scale: 1,
+  id: null,
+  name: "",
+  coordinates: {
+    lat: 0,
+    lng: 0,
   },
+  img: MARKERS[0].img,
+  scale: 1,
 });
 
 /**
@@ -25,7 +21,7 @@ const editMarker = atom<EditMarker>({
  * @returns 編集中のマーカーの状態
  */
 export function useEditMarkerState() {
-  return useRecoilValue(editMarker);
+  return useAtomValue(editMarker);
 }
 
 /**
@@ -33,7 +29,7 @@ export function useEditMarkerState() {
  * @returns 編集中のマーカーの状態を更新する関数
  */
 export function useEditMarkerMutators() {
-  const [editMarkerState, setEditMarkerState] = useRecoilState(editMarker);
+  const [editMarkerState, setEditMarkerState] = useAtom(editMarker);
 
   /**
    * @description マーカーのIDを更新する
@@ -92,7 +88,7 @@ export function useEditMarkerMutators() {
   function reset() {
     setEditMarkerState({
       id: null,
-      name: '',
+      name: "",
       coordinates: {
         lat: 0,
         lng: 0,

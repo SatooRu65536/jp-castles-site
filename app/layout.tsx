@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Footer from "./_components/footer/Footer";
 import Header from "./_components/header/Header";
 import "./globals.css";
-import RecoilProvider from "./recoilProvider";
+import Provider from "./Provider";
 
 export const metadata: Metadata = {
   title: "Castle Datastore",
@@ -17,11 +17,11 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <RecoilProvider>
+        <Provider>
           <Header />
           {children}
           <Footer />
-        </RecoilProvider>
+        </Provider>
       </body>
     </html>
   );

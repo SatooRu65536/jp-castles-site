@@ -1,17 +1,13 @@
-import { atom, useRecoilState, useRecoilValue } from "recoil";
-import { recoilKeyHashSet } from "./keys";
+import { atom, useAtomValue, useSetAtom } from "jotai";
 
-const selectMarkerId = atom<string>({
-  key: recoilKeyHashSet.selectMarkerId,
-  default: "",
-});
+const selectMarkerId = atom<string>("");
 
 /**
  * @description 選択中のマーカーの状態を取得する
  * @returns 選択中のマーカーの状態
  */
 export function useSelectMarkerIdState() {
-  return useRecoilValue(selectMarkerId);
+  return useAtomValue(selectMarkerId);
 }
 
 /**
@@ -19,8 +15,7 @@ export function useSelectMarkerIdState() {
  * @returns 編集中のマーカーの状態を更新する関数
  */
 export function useSelectMarkerIdMutators() {
-  const [_selectMarkerIdState, setSelectMarkerIdState] =
-    useRecoilState(selectMarkerId);
+  const setSelectMarkerIdState = useSetAtom(selectMarkerId);
 
   return { setSelectMarkerIdState };
 }
